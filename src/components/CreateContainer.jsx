@@ -6,6 +6,9 @@ import { Loader } from './index';
 import { storage } from '../firebase.config';
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { saveItem } from '../utils/firebaseFunctions';
+import { useStateValue } from '../context/StateProvider';
+import { getAllItems } from '../utils/firebaseFunctions';
+import { actionType } from '../context/reducer';
 const CreateContainer = () => {
   const [title, setTitle] = useState("");
   const [calories, setcalories] = useState("");
@@ -16,6 +19,7 @@ const CreateContainer = () => {
   const [alert, setalert] = useState("danger");
   const [msg, setmsg] = useState(null);
   const [loading, setloading] = useState(false);
+  const [{ }, dispatch] = useStateValue();
 
   const uploadImage = (e) => {
     setloading(true);
@@ -108,6 +112,15 @@ const CreateContainer = () => {
     }
   };
 
+  const getData = async () => {
+    await getAllItems().then((data) => {
+      console.log(data);
+      dispatch({
+        type: actionType.SET_FOOD_ITEMS,
+        foodItems: data,
+      });
+    });
+  }
   const clearData = () => {
     setTitle("");
     setimage(null);
