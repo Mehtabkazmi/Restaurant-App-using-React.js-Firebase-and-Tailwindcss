@@ -30,7 +30,6 @@ const CreateContainer = () => {
     uploadTask.on('state_changed', (snapshot) => {
       const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
     }, (error) => { 
-      console.log(error);
       setfields(true);
       setmsg('Error while uploading : Try Again !');
       setalert('danger');
@@ -69,8 +68,6 @@ const CreateContainer = () => {
   const saveDetail = () => {
     setloading(true)
     try {
-        console.log(title);
-
       if (!title || !category || !image || !calories || !price) {
         
         setfields(true)
@@ -85,7 +82,7 @@ const CreateContainer = () => {
           id: `${Date.now()}`,
           title,
           imageURL: image,
-          category:
+          category,
           calories,
           qty: 1,
           price
@@ -100,7 +97,6 @@ const CreateContainer = () => {
         }, 3000);
       }
     } catch (error) {
-      console.log(error);
       setfields(true);
       setmsg('Error while uploading : Try Again !');
       setalert('danger');
@@ -114,7 +110,6 @@ const CreateContainer = () => {
 
   const getData = async () => {
     await getAllItems().then((data) => {
-      console.log(data);
       dispatch({
         type: actionType.SET_FOOD_ITEMS,
         foodItems: data,
@@ -187,7 +182,7 @@ const CreateContainer = () => {
           </div>
           <div className='w-full py-2 border-b border-gray-300 flex items-center gap-2'>
             <MdAttachMoney className="text-gray-700 text-2xl" />
-            <input type="text" required placeholder='Calories' value={price} onChange={(e)=>setprice(e.target.value)} className='w-full h-full text-lg bg-transparent outline-none placeholder:text-gray-400' />
+            <input type="text" required placeholder='price' value={price} onChange={(e)=>setprice(e.target.value)} className='w-full h-full text-lg bg-transparent outline-none placeholder:text-gray-400' />
           </div>
         </div>
         <div className='flex items-center w-full'>
