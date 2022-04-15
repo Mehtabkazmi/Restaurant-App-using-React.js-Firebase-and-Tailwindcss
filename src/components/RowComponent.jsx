@@ -1,8 +1,20 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion';
 import { MdShoppingBasket } from 'react-icons/md';
+import { useStateValue } from '../context/StateProvider';
+import { actionType } from '../context/reducer';
 const RowComponent = ({ flag, data,scroll }) => {
     const rowContainer = useRef();
+    const [{ cartItems }, dispatch] = useStateValue();
+    const [items, setitems] = useState([]);
+    const addtocart = () => {
+        dispatch({
+            type: actionType.SET_CART_INFO,
+            cartItems: items,
+        });
+        localStorage.setItem('cartItems', JSON.stringify(items));
+    }
+    useEffect(() => { addtocart() }, [items]);
     useEffect(() => {
         rowContainer.current.scrollLeft += scroll;
     }, [scroll]);
@@ -13,7 +25,9 @@ const RowComponent = ({ flag, data,scroll }) => {
                 <div className='w-full flex justify-between items-center '>
                     <motion.img whileHover={{scale:1.2}} src={item.imageURL}
                         className='w-32 -mt-8 drop-shadow-2xl transition-all ease-in-out' alt="../img/cu1.png" />
-                    <motion.div whileTap={{scale:0.75}} className='w-8 h-8 rounded-full bg-red-600 flex justify-center items-center cursor-pointer hover:shadow-md'>
+                        <motion.div 
+                            onClick={()=>setitems([...cartItems, item])}
+                            whileTap={{ scale: 0.75 }} className='w-8 h-8 rounded-full bg-red-600 flex justify-center items-center cursor-pointer hover:shadow-md'>
                         <MdShoppingBasket className='text-white'/>
                     </motion.div>
                 </div>

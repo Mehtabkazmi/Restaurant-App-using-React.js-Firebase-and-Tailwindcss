@@ -5,3 +5,5 @@ export {default as HomeContainer } from './HomeContainer';
 export {default as Loader } from './Loader';
 export {default as RowComponent } from './RowComponent';
 export {default as MenuContainer } from './MenuContainer';
+export {default as CartComponent } from './CartComponent';
+export {default as Cart } from './Cart';
